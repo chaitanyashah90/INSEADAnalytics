@@ -1,0 +1,34 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+1) Descriptive stats
+2) Regression model
+3) Dimensionality reduction
+4) Clustering
+5) Classification
+
+X1 -> b1
+X2 -> b2
+X3 -> b3
+
+Deep learning: Having big data plus machine learning.
+
+1970s -> Rule based systems vs principle based systems (current time)
+
+Define parameters and let the computer reduce residual errors=> Machine learning
+
+
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).

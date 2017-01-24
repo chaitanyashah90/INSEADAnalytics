@@ -149,13 +149,11 @@ The correlation matrix does not look pretty for now, but we will see example way
 5. Explore the R packages or github repositories you found interesting and prepare to discuss one of them in class, and if possible show some demo. 
 
 **Your Answers here:**
-<br>
-<br>
-<br>
-<br>
+```{r eval = TRUE, echo=TRUE, comment=NA, warning=FALSE, message=FALSE,results='markup'}
+mean(ProjectData[,4])
+sum(ProjectData[,48]==1)/nrow(ProjectData)*100
 
-<hr>
-<hr>
+```
 
 Once done with this, we can now move to the [S&P 500 finance data exercise set](https://github.com/InseadDataAnalytics/INSEADAnalytics/blob/master/Exercises/Exerciseset1/ExerciseSet1.Rmd) and explore some ways to earn some money using what we learned... 
 
