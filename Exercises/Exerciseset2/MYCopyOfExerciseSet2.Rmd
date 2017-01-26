@@ -160,46 +160,73 @@ iprint.df(show_data, scale=TRUE)
 **Answers**
 
 1. 6 variables
-2. The highest weights are 0.96, 0.96 and 0.83
-3. These are the components that are the most statistically significant according to the data and explain the largest percentage of the variance
-4. 
-
-
-```{r echo=TRUE, tidy=TRUE}
-crisis_data = futures_data[as.Date(rownames(futures_data))> "2007-10-01" & as.Date(rownames(futures_data))<"2009-03-01", ]
-pre_crisis_data = futures_data[as.Date(rownames(futures_data))> "2002-11-01" & as.Date(rownames(futures_data))<"2007-10-01", ]
-
-#Crisis data:
-Variance_Explained_Table_crisis_results<- PCA(crisis_data, graph=FALSE)
-Variance_Explained_Table_crisis<-Variance_Explained_Table_crisis_results$eig
-colnames(Variance_Explained_Table_crisis)<-c("Eigenvalue","Pct of explained variance","Cumulative pct of explained variance")
-
-colnames(Variance_Explained_Table_crisis)<-c("Eigenvalue","Pct of explained variance","Cumulative pct of explained variance")
-show_data_crisis = round(Variance_Explained_Table_crisis, 2)
-iprint.df(show_data_crisis)
-eigenvalues_crisis <- Variance_Explained_Table_crisis[, "Eigenvalue"]
-df_crisis <- cbind(as.data.frame(eigenvalues_crisis), c(1:length(eigenvalues_crisis)), rep(1, length(eigenvalues_crisis)))
-colnames(df_crisis) <- c("eigenvalues", "components", "abline")
-iplot.df(melt(df_crisis, id="components"))
-
-#Pre Crisis Data
-Variance_Explained_Table_pre_crisis_results<- PCA(crisis_data, graph=FALSE)
-Variance_Explained_Table_pre_crisis<-Variance_Explained_Table_crisis_results$eig
-colnames(Variance_Explained_Table_pre_crisis)<-c("Eigenvalue","Pct of explained variance","Cumulative pct of explained variance")
-
-colnames(Variance_Explained_Table_pre_crisis)<-c("Eigenvalue","Pct of explained variance","Cumulative pct of explained variance")
-show_data_pre_crisis = round(Variance_Explained_Table_pre_crisis, 2)
-iprint.df(show_data_pre_crisis)
-eigenvalues_pre_crisis <- Variance_Explained_Table_pre_crisis[, "Eigenvalue"]
-df_pre_crisis <- cbind(as.data.frame(eigenvalues_pre_crisis), c(1:length(eigenvalues_pre_crisis)), rep(1, length(eigenvalues_pre_crisis)))
-colnames(df_pre_crisis) <- c("eigenvalues", "components", "abline")
-iplot.df(melt(df_pre_crisis, id="components"))
-
+2. The highest weights are 0.93, 0.93 and 0.86
+3. The first 10 components are: Government bonds, Foreign exchange currency, European Market indices, North American Market indices, Euro bonds/interest rates, Oil-based commodities, Metals, Agri-based food commodities, Precious metals, SE Asian indices.  
+4.
+```{r}
+futures_data_PC = futures_data[row.names(futures_data)>"2002-11-01"&row.names(futures_data)<"2007-10-01",]
+futures_data_CR = futures_data[row.names(futures_data)>"2007-10-01"&row.names(futures_data)<"2009-03-01",]
 
 ```
 
-5. According to the correlation matrix the components are more closely correlated during a bullish market. 
-*
+Table for pre-crisis period.
+```{r echo=TRUE, eval=TRUE, comment=NA, warning=FALSE,error=FALSE, message=FALSE, prompt=FALSE, tidy=TRUE}
+Variance_Explained_Table_results_PC<-PCA(futures_data_PC, graph=FALSE)
+Variance_Explained_Table_PC<-cbind(paste("component",1:ncol(futures_data_PC),sep=" "),Variance_Explained_Table_results_PC$eig)
+Variance_Explained_Table_PC<-as.data.frame(Variance_Explained_Table_PC)
+colnames(Variance_Explained_Table_PC)<-c("Component","Eigenvalue", "Percentage_of_explained_variance", "Cumulative_percentage_of_explained_variance")
+```
+
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE, results='asis'}
+show_data_PC = data.frame(Variance_Explained_Table_PC)
+m1_PC<-gvisTable(show_data_PC,options=list(width=1920, height=min(400,27*(nrow(show_data_PC)+1)),allowHTML=TRUE,page='disable'),formats=list(Eigenvalue="#.##",Percentage_of_explained_variance="#.##",Cumulative_percentage_of_explained_variance="#.##"))
+print(m1_PC,'chart')
+```
+
+Chart for pre-crisis period.
+
+```{r echo=TRUE, eval=TRUE, comment=NA, warning=FALSE,error=FALSE, message=FALSE, prompt=FALSE, tidy=TRUE}
+eigenvalues_PC  <- Variance_Explained_Table_PC[,2]
+```
+
+```{r Fig2, echo=FALSE, comment=NA, results='asis', message=FALSE, fig.align='center', fig=TRUE}
+df           <- cbind(as.data.frame(eigenvalues_PC), c(1:length(eigenvalues_PC)), rep(1, length(eigenvalues_PC)))
+colnames(df) <- c("eigenvalues", "components", "abline")
+Line_PC         <- gvisLineChart(as.data.frame(df), xvar="components", yvar=c("eigenvalues","abline"), options=list(title='Scree plot', legend="right", width=900, height=600, hAxis="{title:'Number of Components', titleTextStyle:{color:'black'}}", vAxes="[{title:'Eigenvalues'}]",  series="[{color:'green',pointSize:3, targetAxisIndex: 0}]"))
+print(Line_PC, 'chart')
+```
+
+Table for crisis data.
+
+```{r echo=TRUE, eval=TRUE, comment=NA, warning=FALSE,error=FALSE, message=FALSE, prompt=FALSE, tidy=TRUE}
+Variance_Explained_Table_results_CR<-PCA(futures_data_CR, graph=FALSE)
+Variance_Explained_Table_CR<-cbind(paste("component",1:ncol(futures_data_CR),sep=" "),Variance_Explained_Table_results_CR$eig)
+Variance_Explained_Table_CR<-as.data.frame(Variance_Explained_Table_CR)
+colnames(Variance_Explained_Table_CR)<-c("Component","Eigenvalue", "Percentage_of_explained_variance", "Cumulative_percentage_of_explained_variance")
+```
+
+
+```{r echo=FALSE, comment=NA, warning=FALSE, message=FALSE, results='asis'}
+show_data_CR = data.frame(Variance_Explained_Table_CR)
+m1_CR<-gvisTable(show_data_CR,options=list(width=1920, height=min(400,27*(nrow(show_data_CR)+1)),allowHTML=TRUE,page='disable'),formats=list(Eigenvalue="#.##",Percentage_of_explained_variance="#.##",Cumulative_percentage_of_explained_variance="#.##"))
+print(m1_CR,'chart')
+```
+
+Chart for crisis period.
+
+```{r echo=TRUE, eval=TRUE, comment=NA, warning=FALSE,error=FALSE, message=FALSE, prompt=FALSE, tidy=TRUE}
+eigenvalues_CR  <- Variance_Explained_Table_CR[,2]
+```
+
+```{r Fig3, echo=FALSE, comment=NA, results='asis', message=FALSE, fig.align='center', fig=TRUE}
+df           <- cbind(as.data.frame(eigenvalues_CR), c(1:length(eigenvalues_CR)), rep(1, length(eigenvalues_CR)))
+colnames(df) <- c("eigenvalues", "components", "abline")
+Line_CR         <- gvisLineChart(as.data.frame(df), xvar="components", yvar=c("eigenvalues","abline"), options=list(title='Scree plot', legend="right", width=900, height=600, hAxis="{title:'Number of Components', titleTextStyle:{color:'black'}}", vAxes="[{title:'Eigenvalues'}]",  series="[{color:'green',pointSize:3, targetAxisIndex: 0}]"))
+print(Line_CR, 'chart')
+```
+
+5. During bear years assets are more correlated and it's easier to describe economy with less parameters.
 *
 *
 *
