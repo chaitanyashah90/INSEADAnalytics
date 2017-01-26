@@ -159,7 +159,46 @@ iprint.df(show_data, scale=TRUE)
 
 **Answers**
 
-*
+1. 6 variables
+2. The highest weights are 0.96, 0.96 and 0.83
+3. These are the components that are the most statistically significant according to the data and explain the largest percentage of the variance
+4. 
+
+
+```{r echo=TRUE, tidy=TRUE}
+crisis_data = futures_data[as.Date(rownames(futures_data))> "2007-10-01" & as.Date(rownames(futures_data))<"2009-03-01", ]
+pre_crisis_data = futures_data[as.Date(rownames(futures_data))> "2002-11-01" & as.Date(rownames(futures_data))<"2007-10-01", ]
+
+#Crisis data:
+Variance_Explained_Table_crisis_results<- PCA(crisis_data, graph=FALSE)
+Variance_Explained_Table_crisis<-Variance_Explained_Table_crisis_results$eig
+colnames(Variance_Explained_Table_crisis)<-c("Eigenvalue","Pct of explained variance","Cumulative pct of explained variance")
+
+colnames(Variance_Explained_Table_crisis)<-c("Eigenvalue","Pct of explained variance","Cumulative pct of explained variance")
+show_data_crisis = round(Variance_Explained_Table_crisis, 2)
+iprint.df(show_data_crisis)
+eigenvalues_crisis <- Variance_Explained_Table_crisis[, "Eigenvalue"]
+df_crisis <- cbind(as.data.frame(eigenvalues_crisis), c(1:length(eigenvalues_crisis)), rep(1, length(eigenvalues_crisis)))
+colnames(df_crisis) <- c("eigenvalues", "components", "abline")
+iplot.df(melt(df_crisis, id="components"))
+
+#Pre Crisis Data
+Variance_Explained_Table_pre_crisis_results<- PCA(crisis_data, graph=FALSE)
+Variance_Explained_Table_pre_crisis<-Variance_Explained_Table_crisis_results$eig
+colnames(Variance_Explained_Table_pre_crisis)<-c("Eigenvalue","Pct of explained variance","Cumulative pct of explained variance")
+
+colnames(Variance_Explained_Table_pre_crisis)<-c("Eigenvalue","Pct of explained variance","Cumulative pct of explained variance")
+show_data_pre_crisis = round(Variance_Explained_Table_pre_crisis, 2)
+iprint.df(show_data_pre_crisis)
+eigenvalues_pre_crisis <- Variance_Explained_Table_pre_crisis[, "Eigenvalue"]
+df_pre_crisis <- cbind(as.data.frame(eigenvalues_pre_crisis), c(1:length(eigenvalues_pre_crisis)), rep(1, length(eigenvalues_pre_crisis)))
+colnames(df_pre_crisis) <- c("eigenvalues", "components", "abline")
+iplot.df(melt(df_pre_crisis, id="components"))
+
+
+```
+
+5. According to the correlation matrix the components are more closely correlated during a bullish market. 
 *
 *
 *
@@ -230,16 +269,11 @@ How does this compare with **existing CTA products** such as [this one from Soci
 
 **Answers**
 
+1. The code takes into account many moving averages, which according to the criteria for the signal provides either a signal to invest or not to invest, which in turn results in a schedule in which stock to invest in. 
+2. Changing how the moving average is calculated changes how the voting signals, which in result will change the amount that you invest in each portfolio.
 *
 *
-*
-*
-*
-*
-*
-*
-*
-*
+
 
 # A class competition
 
